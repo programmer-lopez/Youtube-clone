@@ -25,13 +25,14 @@ public class FileController {
     @PostMapping("/upload")
     public ResponseEntity<ResponseMessage>uploadFile(@RequestParam("file")MultipartFile file) throws IOException {
         fileService.store(file);
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("El video se subio exitosamente"));
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("El video se subió exitosamente"));
     }
     @GetMapping("/files/{id}")
     public ResponseEntity<byte[]>getFile(@PathVariable UUID id)throws FileNotFoundException{
         FileEntity fileEntity = fileService.getFile(id).get();
         return ResponseEntity.status(HttpStatus.OK)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment : filename\""+fileEntity.getName()+"\"")
+                .header(HttpHeaders.CONTENT_TYPE, fileEntity.getType())
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+fileEntity.getName()+"\"")
                 .body(fileEntity.getData());
     }
     @GetMapping("/files")
