@@ -28,9 +28,9 @@
                 <artifactId>frontend-maven-plugin</artifactId>
                 <version>1.12.0</version>
                 <configuration>
-                    <nodeVersion>v20.9.0</nodeVersion>
+                    <nodeVersion>v20.9.0 </nodeVersion>
                     <nodeDownloadRoot>https://nodejs.org/dist/</nodeDownloadRoot>
-                    <workingDirectory>youtube-clone-ui</workingDirectory>
+                    <workingDirectory>youtube-ui</workingDirectory>
                 </configuration>
                 <executions>
                     <execution>
