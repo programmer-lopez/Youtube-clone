@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
+import {Component} from '@angular/core';
+import {NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry} from 'ngx-file-drop';
+import {VideoService} from "../video.service";
 
 @Component({
   selector: 'app-upload-video',
@@ -9,6 +10,11 @@ import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 
 export class UploadVideoComponent {
 
   public files: NgxFileDropEntry[] = [];
+  fileUploaded: boolean = false;
+  fileEntry: FileSystemFileEntry | undefined;
+
+  constructor(private videoService: VideoService) {
+  }
 
   public dropped(files: NgxFileDropEntry[]) {
     this.files = files;
@@ -22,21 +28,22 @@ export class UploadVideoComponent {
           // Here you can access the real file
           console.log(droppedFile.relativePath, file);
 
+          this.fileUploaded = true;
           /**
-          // You could upload it like this:
-          const formData = new FormData()
-          formData.append('logo', file, relativePath)
+           // You could upload it like this:
+           const formData = new FormData()
+           formData.append('logo', file, relativePath)
 
-          // Headers
-          const headers = new HttpHeaders({
-            'security-token': 'mytoken'
-          })
+           // Headers
+           const headers = new HttpHeaders({
+           'security-token': 'mytoken'
+           })
 
-          this.http.post('https://mybackend.com/api/upload/sanitize-and-save-logo', formData, { headers: headers, responseType: 'blob' })
-          .subscribe(data => {
-            // Sanitized logo returned from backend
-          })
-          **/
+           this.http.post('https://mybackend.com/api/upload/sanitize-and-save-logo', formData, { headers: headers, responseType: 'blob' })
+           .subscribe(data => {
+           // Sanitized logo returned from backend
+           })
+           **/
 
         });
       } else {
@@ -47,11 +54,22 @@ export class UploadVideoComponent {
     }
   }
 
-  public fileOver(event: any){
+  public fileOver(event: any) {
     console.log(event);
   }
 
-  public fileLeave(event: any){
+  public fileLeave(event: any) {
     console.log(event);
+  }
+
+  uploadFile() {
+    if (this.fileEntry !== undefined) {
+      console.log(this.fileEntry);
+      this.fileEntry.file(file => {
+        this.videoService.uploadFile(file).subscribe(data => {
+          console.log("Vide subido correctamente!");
+        })
+      })
+    }
   }
 }

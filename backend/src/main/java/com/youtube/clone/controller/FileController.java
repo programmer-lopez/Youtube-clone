@@ -4,6 +4,7 @@ import com.youtube.clone.entity.FileEntity;
 import com.youtube.clone.response.ResponseFile;
 import com.youtube.clone.response.ResponseMessage;
 import com.youtube.clone.service.FileService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/fileManager")
+@RequiredArgsConstructor
 public class FileController {
     @Autowired
     private FileService fileService;
